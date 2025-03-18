@@ -9,7 +9,7 @@ jobs:                                            # conjunto de tarefas
     runs-on: ubuntu-latest                       # onde vai executar no ubuntu
     steps:                                       # etapas, declarar os passos de execução abaixo
       - name: Exemplo                            # actions, as ações na sequencua
-        run: echo "Hello World !!!!"             # conjunto de código executado de forma capsulada
+        run: echo "Hello World !!!!"             # conjunto de código executado de forma capsulada2
 
       - name: Checkout
         uses: actions/checkout@v4.2.2            

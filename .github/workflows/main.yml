@@ -13,7 +13,7 @@ jobs:                                            # conjunto de tarefas
 
       - name: Listagem
         run: ls
-         
+
       - name: Checkout
         uses: actions/checkout@v4.2.2            
         
@@ -33,3 +33,10 @@ jobs:                                            # conjunto de tarefas
             tags: |
                "masfgroove/nodejs-web:${{github.run_number}}"
                "masfgroove/nodejs-web:latest"  
+
+  cd:                                            # declara job de CI
+    runs-on: ubuntu-latest                       # onde vai executar no ubuntu
+    #needs:                                       # depende ds CI
+    steps:
+      - name: Exemplo
+        run: echo "Teste"                                       #

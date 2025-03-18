@@ -4,7 +4,7 @@ on:                                              # disparar commit
     branches: ["main"]                           # disparar na main
   workflow_dispatch:                             # disparo manual
   
-jobs:                                            # conjunto de tarefas
+jobs:                                            # conjunto de tarefas 
   CI:                                            # declara job de CI 
     runs-on: ubuntu-latest                       # onde vai executar no ubuntu
     steps:                                       # etapas, declarar os passos de execução abaixo

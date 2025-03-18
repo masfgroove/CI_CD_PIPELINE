@@ -11,6 +11,9 @@ jobs:                                            # conjunto de tarefas
       - name: Exemplo                            # actions, as ações na sequencua
         run: echo "Hello World !!!!"             # conjunto de código executado de forma capsulada2
 
+      - name: Listagem
+        run: ls
+         
       - name: Checkout
         uses: actions/checkout@v4.2.2            
         

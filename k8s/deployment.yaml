@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: web
-        image: masfgroove/nodejs-web
+        image: fabricioveronez/nodejs-web
         ports:
         - containerPort: 8080
 ---

@@ -5,7 +5,7 @@ on:                                              # disparar commit
   workflow_dispatch:                             # disparo manual
   
 jobs:                                            # conjunto de tarefas 
-  CI:                                            # declara job de CI 
+  CI:                                            # declara job de CI l
     runs-on: ubuntu-latest                       # onde vai executar no ubuntu
     steps:                                       # etapas, declarar os passos de execução abaixo
       - name: Exemplo                            # actions, as ações na sequencua

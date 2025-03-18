@@ -1,43 +1,13 @@
-
-name: CI-CD
-
-on:
-  push:
-
-jobs:
-  CI:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Obtendo o código
-      uses: actions/checkout@v4
-    - name: Docker Login
-      uses: docker/login-action@v3
-      with:
-        username: ${{secrets.DOCKERHUB_USER}}
-        password: ${{secrets.DOCKERHUB_PWD}}
-
-    - name: Construção da imagem Docker worker
-      uses: docker/build-push-action@v5
-      with: 
-        context: ./src
-        file: ./src/Dockerfile
-        push: true
-        tags: |
-          "fabricioveronez/nodejs-web:${{github.run_number}}"
-          "fabricioveronez/nodejs-web:latest"  
-
-  deploy-homologacao:
-    needs: [CI]
-    uses: fabricioveronez/nodejs-web/.github/workflows/deploy.yaml@main
-    with:
-      docker_image: "fabricioveronez/nodejs-web:${{github.run_number}}"
-      ambiente: homologacao
-    secrets: inherit
-
-  deploy-producao:
-    needs: [deploy-homologacao]
-    uses: fabricioveronez/nodejs-web/.github/workflows/deploy.yaml@main
-    with:
-      docker_image: "fabricioveronez/nodejs-web:${{github.run_number}}"
-      ambiente: producao
-    secrets: inherit
+name: CI-CD                                      # nome do puipeline
+on:                                              # disparar commit 
+  push:                                          # dispara a triguer
+    branches: ["main"]                           # disparar na main
+  workflow_dispatch:                             # disparo manual
+  
+jobs:                                            # conjunto de tarefas
+  CI:                                            # declara job de CI 
+    runs-on: ubuntu-latest                       # onde vai executar no ubuntu
+    steps:                                       # etapas, declarar os passos de execução abaixo
+      - name: Exemplo                            # actions, as ações na sequencua
+        run: echo "Hello World !!!!" 
+     

@@ -1,53 +1,51 @@
-name: CI-CD                                      # nome do pipeline
+name: CI-CD                                      # nome do puipeline
 on:                                              # disparar commit 
-  push:                                          # dispara o trigger
+  push:                                          # dispara a triguer
     branches: ["main"]                           # disparar na main
   workflow_dispatch:                             # disparo manual
-
+  
 jobs:                                            # conjunto de tarefas 
-  CI:                                            # job de CI
+  CI:                                            # declara job de CI
     runs-on: ubuntu-latest                       # onde vai executar no ubuntu
     steps:                                       # etapas, declarar os passos de execução abaixo
-      - name: Exemplo                            # exemplo de ação
-        run: echo "Hello World !!!!"             # conjunto de código executado de forma capsulada
+      - name: Exemplo                            # actions, as ações na sequencua
+        run: echo "Hello World !!!!"             # conjunto de código executado de forma capsulada2
 
       - name: Checkout
-        uses: actions/checkout@v3                # corrigido para versão estável do checkout
+        uses: actions/checkout@v3           
         
-      - name: Docker login to Docker Hub
-        uses: docker/login-action@v2              # versão mais estável do login
+      - name: Docker to Docker Hub
+        uses: docker/login-action@v3.4.0         # mostra onde esta esse codigo que irá executar repostorio
         with:
-          username: ${{secrets.DOCKERHUB_USERNAME}} # senha está em Settings > Secrets
-          password: ${{secrets.DOCKERHUB_TOKEN}}    # token do Docker Hub
+          username: ${{secrets.DOCKERHUB_USERNAME}} # senha esta em settings em actiob  secrets
+          password: ${{secrets.DOCKERHUB_TOKEN}}    #masfgroove 0102474849
 
-      # Ação de construção e push para Docker Hub
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v3          # versão estável do build-push
+          #action que vai construir a imagem
+      - name: Build and push
+        uses: docker/build-push-action@v6
         with:
-          context: ./src                          # onde está o código fonte
-          push: true
-          file: ./src/Dockerfile                   # caminho para o Dockerfile
-          tags: |
-            "masfgroove/nodejs-web:${{github.run_number}}"  # tag única baseada no número do run
-            "masfgroove/nodejs-web:latest"                  # tag "latest" 
+            context: ./src
+            push: true
+            file: ./src/Dockerfile
+            tags: |
+               "masfgroove/nodejs-web:${{github.run_number}}"
+               "masfgroove/nodejs-web:latest"  
 
-  cd:                                            # job de CD
+  cd:                                            # declara job de CI 
     runs-on: ubuntu-latest                       # onde vai executar no ubuntu
-    needs: [CI]                                  # depende do job CI (só vai rodar após a CI)
+    needs: [CI]                                  # depende ds CD SÓ vai rodar depois que acabar a ci
     steps:
       - name: Checkout
-        uses: actions/checkout@v3                # checkout do código fonte
+        uses: actions/checkout@v3            
 
-      - name: Set Kubernetes context
-        uses: azure/k8s-set-context@v4           # ação para configurar o contexto do K8s
+      - uses: azure/k8s-set-context@v4
         with:
-          method: kubeconfig
-          kubeconfig: ${{secrets.K8S_CONFIG}}    # kubeconfig do Kubernetes armazenado como segredo
-
-      - name: Deploy to Kubernetes
-        uses: Azure/k8s-deploy@v5                 # ação de deploy no Kubernetes
+           method: kubeconfig
+           kubeconfig: ${{secrets.K8S_CONFIG}}
+    
+      - uses: Azure/k8s-deploy@v5
         with:
-          manifests: |                             # caminho para o arquivo de deployment YAML
-            ./k8s/deployment.yaml               
-          images: |                              # referência para a imagem no Docker Hub
-            "masfgroove/nodejs-web:${{github.run_number}}"  
+          manifests: |
+             ./k8s/deployment.yaml
+          images: |
+              "fabricioveronez/nodejs-web:${{github.run_number}}"

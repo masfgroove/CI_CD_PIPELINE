@@ -5,7 +5,7 @@ on:                                              # disparar commit
   workflow_dispatch:                             # disparo manual
   
 jobs:                                            # conjunto de tarefas 
-  CI:                                            # declara job de CI l
+  CI:                                            # declara job de CI
     runs-on: ubuntu-latest                       # onde vai executar no ubuntu
     steps:                                       # etapas, declarar os passos de execução abaixo
       - name: Exemplo                            # actions, as ações na sequencua
@@ -18,7 +18,7 @@ jobs:                                            # conjunto de tarefas
         uses: docker/login-action@v3.4.0         # mostra onde esta esse codigo que irá executar repostorio
         with:
           username: ${{secrets.DOCKERHUB_USERNAME}} # senha esta em settings em actiob  secrets
-          password: ${{secrets.DOCKERHUB_TOKEN}}    #masfgroove 010246
+          password: ${{secrets.DOCKERHUB_TOKEN}}    #masfgroove 0102474849
 
           #action que vai construir a imagem
       - name: Build and push

@@ -36,7 +36,7 @@ jobs:                                            # conjunto de tarefas
 
   cd:                                            # declara job de CI
     runs-on: ubuntu-latest                       # onde vai executar no ubuntu
-    #needs:                                       # depende ds CI
+    needs: [CI]                                       # depende ds CI
     steps:
       - name: Exemplo
         run: echo "Teste"                                       #

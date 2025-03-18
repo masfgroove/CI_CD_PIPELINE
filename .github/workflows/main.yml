@@ -11,9 +11,6 @@ jobs:                                            # conjunto de tarefas
       - name: Exemplo                            # actions, as ações na sequencua
         run: echo "Hello World !!!!"             # conjunto de código executado de forma capsulada2
 
-      - name: Listagem
-        run: ls
-
       - name: Checkout
         uses: actions/checkout@v4.2.2            
         
@@ -36,7 +33,19 @@ jobs:                                            # conjunto de tarefas
 
   cd:                                            # declara job de CI
     runs-on: ubuntu-latest                       # onde vai executar no ubuntu
-    needs: [CI]                                       # depende ds CI
+    needs: [CI]                                  # depende ds CD SÓ vai rodar depois que acabar a ci
     steps:
-      - name: Exemplo
-        run: echo "Teste"                                       #
+      - name: Checkout
+        uses: actions/checkout@v4.2.2            
+
+      - uses: azure/k8s-set-context@v4
+        with:
+           method: kubeconfig
+           kubeconfig: ${{ secrets.K8S_CONFIG }}
+    
+      - uses: Azure/k8s-deploy@v5
+        with:
+          manifests: |
+             ./k8s/deployment.yaml
+          images: |
+              "masfgroove/nodejs-web:${{github.run_number}}"
